@@ -7,6 +7,7 @@ import Image from "next/image";
 import menu from "@/app/utils/menu";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import PFPImage from "@/public/avatar1.jpg"
 
 function Sidebar() {
   const { theme } = useGlobalState();
@@ -21,7 +22,7 @@ function Sidebar() {
       <div className="profile">
         <div className="profile-overlay"></div>
         <div className="image">
-          <Image width={70} height={70} alt="profile" src={"/avatar1.jpg"} />
+          <Image className="w-[50px] h-[50px] object-cover" alt="profile" src={PFPImage} />
         </div>
         <h1>
           <span>Chris</span>
@@ -33,6 +34,7 @@ function Sidebar() {
           const link = item.link;
           return (
             <li
+            key={item.title}
               className={`nav-item ${pathname === link ? "active" : ""}`}
               onClick={() => handleClick(item.link)}
             >
@@ -104,8 +106,8 @@ const SidebarStyled = styled.nav`
       transition: all 0.5s ease;
       border-radius: 100%;
 
-      /* width: 70px;
-      height: 70px; */
+      /* width: 50px;
+      height: 50px; */
 
       img {
         border-radius: 100%;

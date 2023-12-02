@@ -12,26 +12,29 @@ interface Props {
 }
 
 function Tasks({ title, tasks }: Props) {
-  const { theme } = useGlobalState();
+  const { theme, isLoading } = useGlobalState();
+
   return (
     <TasksStyled theme={theme}>
       <h1>{title}</h1>
-      <div className="tasks grid">
-        {tasks.map((task) => (
-          <TaskItem
-            key={task.id}
-            title={task.title}
-            description={task.description}
-            date={task.date}
-            isCompleted={task.completed}
-            id={task.id}
-          />
-        ))}
-        <button className="create-task">
-          {plus}
-          Add New Task
-        </button>
-      </div>
+
+        <div className="tasks grid">
+          {tasks.map((task) => (
+            <TaskItem
+              key={task.id}
+              title={task.title}
+              description={task.description}
+              date={task.date}
+              isCompleted={task.completed}
+              id={task.id}
+            />
+          ))}
+          <button className="create-task">
+            {plus}
+            Add New Task
+          </button>
+        </div>
+      
     </TasksStyled>
   );
 }
@@ -47,6 +50,10 @@ const TasksStyled = styled.main`
 
   &::-webkit-scrollbar {
     width: 0.5rem;
+  }
+
+  .tasks {
+    margin: 2rem 0;
   }
 
   > h1 {
@@ -66,10 +73,10 @@ const TasksStyled = styled.main`
     }
   }
 
-  .create-task{
-    display:flex;
-    align-items:center;
-    justify-content:center;
+  .create-task {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     gap: 0.5rem;
     height: 16rem;
     color: ${(props) => props.theme.colorGrey2};

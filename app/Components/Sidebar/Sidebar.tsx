@@ -10,7 +10,7 @@ import { usePathname, useRouter } from "next/navigation";
 import PFPImage from "@/public/avatar1.jpg"
 import Button from "../Button/button";
 import { logout } from "@/app/utils/Icons";
-import { useClerk } from "@clerk/nextjs";
+import { UserButton, useClerk } from "@clerk/nextjs";
 
 function Sidebar() {
   const { theme } = useGlobalState();
@@ -27,13 +27,12 @@ function Sidebar() {
     <SidebarStyled theme={theme}>
       <div className="profile">
         <div className="profile-overlay"></div>
-        <div className="image">
+        {/* <div className="image">
           <Image className="w-[50px] h-[50px] object-cover" alt="profile" src={PFPImage} />
+        </div> */}
+        <div className="user-btn">
+          <UserButton showName={true}/>
         </div>
-        <h1>
-          <span>Chris</span>
-          <span>Shim</span>
-        </h1>
       </div>
       <ul className="nav-items">
         {menu.map((item) => {
@@ -96,21 +95,21 @@ const SidebarStyled = styled.nav`
       left: 0;
       width: 100%;
       height: 100%;
-      backdrop-filter: blur(10px);
+      /* backdrop-filter: blur(10px); */
       z-index: 0;
-      background: ${(props) => props.theme.colorBg3};
+      /* background: ${(props) => props.theme.colorBg3}; */
       transition: all 0.55s linear;
       border-radius: 1rem;
       border: 2px solid ${(props) => props.theme.borderColor2};
       opacity: 0.2;
     }
 
-    h1 {
+    /* h1 {
       font-size: 1.2rem;
       display: flex;
       flex-direction: column;
       line-height: 1.4rem;
-    }
+    } */
 
     .image,
     h1 {
@@ -150,6 +149,21 @@ const SidebarStyled = styled.nav`
         transform:scale(1.1);
       }
     }
+
+    .cl-internal-jayce9{
+    color: white;
+  }
+
+  .cl-internal-1cd5e4l{
+    display:flex;
+    flex-flow:row;
+    flex-direction: row-reverse;
+  }
+
+  .cl-internal-11ewti4{
+    width:50px;
+    height:50px;
+  }
   }
 
   .nav-item{

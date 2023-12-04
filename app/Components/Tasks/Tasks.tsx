@@ -5,6 +5,7 @@ import React from "react";
 import styled from "styled-components";
 import TaskItem from "../TaskItem/TaskItem";
 import { plus } from "@/app/utils/Icons";
+import CreateContent from "../Modals/CreateContent";
 
 interface Props {
   title: string;
@@ -17,7 +18,6 @@ function Tasks({ title, tasks }: Props) {
   return (
     <TasksStyled theme={theme}>
       <h1>{title}</h1>
-
         <div className="tasks grid">
           {tasks.map((task) => (
             <TaskItem
@@ -25,7 +25,7 @@ function Tasks({ title, tasks }: Props) {
               title={task.title}
               description={task.description}
               date={task.date}
-              isCompleted={task.completed}
+              isCompleted={task.isCompleted}
               id={task.id}
             />
           ))}

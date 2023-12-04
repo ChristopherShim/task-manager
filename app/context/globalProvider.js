@@ -20,7 +20,7 @@ export const GlobalProvider = ({ children }) => {
     setIsLoading(true);
     try {
       const res = await axios.get("/api/tasks");
-      setTasks(res.data);
+      setTasks(res.data)
       setIsLoading(false);
     } catch (error) {
       toast.error("Something went wrong");
@@ -38,6 +38,20 @@ export const GlobalProvider = ({ children }) => {
     }
   }
 
+  const updateTask = async (task)=>{
+    try {
+      const res = await axios.put('/api/tasks', task)
+      toast.success("Task Updated")
+      allTasks()
+    } catch (error) {
+      toast.error("Something went wrong")
+    }
+  }
+
+  const completedTasks = tasks.filter(task => task.isCompleted === true)
+  const importantTasks = tasks.filter(task => task.isImportant === true)
+  const incompleteTasks = tasks.filter(task => task.isCompleted === false)
+
   useEffect(() => {
     if (user) allTasks();
   }, [user]);
@@ -48,7 +62,11 @@ export const GlobalProvider = ({ children }) => {
         theme,
         tasks,
         deleteTask,
-        isLoading
+        isLoading,
+        completedTasks,
+        importantTasks,
+        incompleteTasks,
+        updateTask
       }}
     >
       <GlobalUpdateContext.Provider value={{}}>

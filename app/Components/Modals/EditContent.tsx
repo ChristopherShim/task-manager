@@ -8,14 +8,14 @@ import { useGlobalState } from "@/app/context/globalProvider";
 import Button from "../Button/button";
 import { plus } from "@/app/utils/Icons";
 
-function CreateContent() {
+function EditContent() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [date, setDate] = useState("");
   const [completed, setCompleted] = useState(false);
   const [important, setImportant] = useState(false);
 
-  const { theme, allTasks, closeCreateModal } = useGlobalState();
+  const { theme, allTasks, closeEditModal } = useGlobalState();
 
   const handleChange = (name: string) => (e: any) => {
     switch (name) {
@@ -59,7 +59,7 @@ function CreateContent() {
       if (!res.data.error) {
         toast.success("Task created successfully.");
         allTasks();
-        closeCreateModal();
+        closeEditModal();
       }
     } catch (error) {
       toast.error("Something went wrong");
@@ -206,4 +206,4 @@ const CreateContentStyled = styled.form`
   }
 `;
 
-export default CreateContent;
+export default EditContent;

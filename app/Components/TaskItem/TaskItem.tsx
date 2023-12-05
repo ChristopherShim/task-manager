@@ -1,11 +1,12 @@
 "use client";
 
 import { useGlobalState } from "@/app/context/globalProvider";
-import { edit, trash } from "@/app/utils/Icons";
+import { check, edit, trash } from "@/app/utils/Icons";
 import React from "react";
 import styled from "styled-components";
 import formatDate from "@/app/utils/formatDate";
-import CreateContent from "../Modals/CreateContent";
+import EditModal from "../Modals/EditModal";
+import EditContent from "../Modals/EditContent";
 
 interface Props {
   title: string;
@@ -16,33 +17,54 @@ interface Props {
 }
 
 function TaskItem({ title, description, date, isCompleted, id }: Props) {
-  const { theme, deleteTask, updateTask } = useGlobalState();
+  const { theme, deleteTask, updateTask, openEditModal, editModal} = useGlobalState();
+
+  function checkTaskId(){
+    console.log(id)
+  }
   return (
+    <>
     <TaskItemStyled theme={theme}>
+      {editModal && <div>hello</div>}
       <h1>{title}</h1>
       <p>{description}</p>
       <p className="date">{formatDate(date)}</p>
       <div className="task-footer">
         {isCompleted ? (
-          <button className="completed" onClick={()=>{
-            const task ={
-              id,
-              isCompleted: !isCompleted
-            };
+          <button
+            className="completed"
+            onClick={() => {
+              const task = {
+                id,
+                isCompleted: !isCompleted,
+              };
 
-            updateTask(task)
-          }}>Completed</button>
+              updateTask(task);
+            }}
+          >
+            Completed
+          </button>
         ) : (
-          <button className="not-completed" onClick={()=>{
-            const task ={
-              id,
-              isCompleted: !isCompleted
-            };
+          <button
+            className="not-completed"
+            onClick={() => {
+              const task = {
+                id,
+                isCompleted: !isCompleted,
+              };
 
-            updateTask(task)
-          }}>Incomplete</button>
+              updateTask(task);
+            }}
+          >
+            Incomplete
+          </button>
         )}
-        <button className="edit">{edit}</button>
+        <button
+          className="edit"
+          onClick={openEditModal}
+        >
+          {edit}
+        </button>
         <button
           className="delete"
           onClick={() => {
@@ -53,6 +75,7 @@ function TaskItem({ title, description, date, isCompleted, id }: Props) {
         </button>
       </div>
     </TaskItemStyled>
+    </>
   );
 }
 

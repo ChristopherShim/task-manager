@@ -13,17 +13,26 @@ export const GlobalProvider = ({ children }) => {
   const { user } = useUser();
   const [selectedTheme, setSelectedTheme] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-  const [modal, setModal] = useState(false);
+  const [createModal, setCreateModal] = useState(false);
+  const [editModal, setEditModal] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
   const [tasks, setTasks] = useState([]);
   const theme = themes[selectedTheme];
 
-  const openModal = () => {
-    setModal(true)
+  const openCreateModal = () => {
+    setCreateModal(true)
   };
 
-  const closeModal = () => {
-    setModal(false)
+  const closeCreateModal = () => {
+    setCreateModal(false)
+  }
+
+  const openEditModal = () =>{
+    setEditModal(true);
+  }
+
+  const closeEditModal = () => {
+    setEditModal(false);
   }
 
   const collapseMenu =() =>{
@@ -67,6 +76,10 @@ setCollapsed(!collapsed)
     }
   };
 
+  const updateSingleTask = async(id) => {
+    
+  }
+
   const completedTasks = tasks.filter((task) => task.isCompleted === true);
   const importantTasks = tasks.filter((task) => task.isImportant === true);
   const incompleteTasks = tasks.filter((task) => task.isCompleted === false);
@@ -86,12 +99,16 @@ setCollapsed(!collapsed)
         importantTasks,
         incompleteTasks,
         updateTask,
-        openModal,
-        closeModal,
-        modal,
+        openCreateModal,
+        closeCreateModal,
+        createModal,
         allTasks,
         collapsed,
-        collapseMenu
+        collapseMenu,
+        updateSingleTask,
+        openEditModal,
+        closeEditModal,
+        editModal
       }}
     >
       <GlobalUpdateContext.Provider value={{}}>

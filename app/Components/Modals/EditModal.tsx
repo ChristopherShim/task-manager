@@ -8,12 +8,12 @@ interface Props {
     content: React.ReactNode;
 }
 
-function Modal({content}: Props) {
-    const {closeModal} = useGlobalState();
+function EditModal({content}: Props) {
+    const {closeEditModal} = useGlobalState();
     const {theme} = useGlobalState();
   return (
     <ModalStyled theme={theme}>
-        <div className="modal-overlay" onClick={closeModal}></div>
+        <div className="modal-overlay" onClick={closeEditModal}></div>
         <div className="modal-content">{content}</div>
         
     </ModalStyled>
@@ -53,4 +53,4 @@ const ModalStyled = styled.div`
     }
 `;
 
-export default Modal
+export default EditModal

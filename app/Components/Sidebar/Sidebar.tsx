@@ -7,31 +7,34 @@ import Image from "next/image";
 import menu from "@/app/utils/menu";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import PFPImage from "@/public/avatar1.jpg"
+import PFPImage from "@/public/avatar1.jpg";
 import Button from "../Button/button";
-import { logout } from "@/app/utils/Icons";
+import { arrowLeft, bars, logout } from "@/app/utils/Icons";
 import { UserButton, useClerk } from "@clerk/nextjs";
 
 function Sidebar() {
-  const { theme } = useGlobalState();
+  const { theme, collapsed, collapseMenu } = useGlobalState();
   const router = useRouter();
   const pathname = usePathname();
 
-  const {signOut} = useClerk();
+  const { signOut } = useClerk();
 
   const handleClick = (link: string) => {
     router.push(link);
   };
 
   return (
-    <SidebarStyled theme={theme}>
+    <SidebarStyled theme={theme} collapsed={collapsed}>
+      <button className="toggle-nav" onClick={collapseMenu}>
+        {collapsed ? bars : arrowLeft}
+      </button>
       <div className="profile">
         <div className="profile-overlay"></div>
         {/* <div className="image">
           <Image className="w-[50px] h-[50px] object-cover" alt="profile" src={PFPImage} />
         </div> */}
         <div className="user-btn">
-          <UserButton showName={true}/>
+          <UserButton showName={true} />
         </div>
       </div>
       <ul className="nav-items">
@@ -39,7 +42,7 @@ function Sidebar() {
           const link = item.link;
           return (
             <li
-            key={item.title}
+              key={item.title}
               className={`nav-item ${pathname === link ? "active" : ""}`}
               onClick={() => handleClick(item.link)}
             >
@@ -51,23 +54,23 @@ function Sidebar() {
       </ul>
       <div className="sign-out relative m-6">
         <Button
-        name={"Sign Out"}
-        type={"submit"}
-        padding={"0.4rem 0.8rem"}
-        borderRad={"0.8rem"}
-        fw={"500"}
-        fs={"1.2rem"}
-        icon={logout}
-        click ={()=>{
-          signOut(()=>router.push("/signin"))
-        }}
+          name={"Sign Out"}
+          type={"submit"}
+          padding={"0.4rem 0.8rem"}
+          borderRad={"0.8rem"}
+          fw={"500"}
+          fs={"1.2rem"}
+          icon={logout}
+          click={() => {
+            signOut(() => router.push("/signin"));
+          }}
         />
       </div>
     </SidebarStyled>
   );
 }
 
-const SidebarStyled = styled.nav`
+const SidebarStyled = styled.nav<{ collapsed: boolean }>`
   position: relative;
   width: ${(props) => props.theme.sidebarWidth};
   background-color: ${(props) => props.theme.colorBg2};
@@ -77,6 +80,37 @@ const SidebarStyled = styled.nav`
   flex-direction: column;
   justify-content: space-between;
   color: ${(props) => props.theme.colorGrey3};
+
+  @media screen and (max-width: 768px) {
+    position: fixed;
+    height: calc(100vh - 2rem);
+    z-index: 10;
+
+    transition: all 0.3s cubic-bezier(0.53, 0.21, 0, 1);
+
+    transform: ${(props) =>
+      props.collapsed ? "translateX(-107%)" : "translateX(0)"};
+
+    .toggle-nav {
+      display: block !important;
+    }
+  }
+
+  .toggle-nav {
+    display: none;
+    padding: 0.8rem;
+    position: absolute;
+    right: -73px;
+    top: 1rem;
+    padding: 0.5rem;
+    padding: 1rem;
+    border-top-right-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    background-color: ${(props) => props.theme.colorBg2};
+    border-right: 2px solid ${(props) => props.theme.borderColor2};
+    border-top: 2px solid ${(props) => props.theme.borderColor2};
+    border-bottom: 2px solid ${(props) => props.theme.borderColor2};
+  }
 
   .profile {
     margin: 1.5rem;
@@ -133,104 +167,105 @@ const SidebarStyled = styled.nav`
       }
     }
 
-    >h1{
-      margin-left:1rem;
+    > h1 {
+      margin-left: 1rem;
       font-size: clamp(1.2rem, 4vw, 1.4rem);
       line-height: 100%;
     }
 
-    &:hover{
-      .profile-overlay{
+    &:hover {
+      .profile-overlay {
         opacity: 1;
-        border:2px solid ${props => props.theme.borderColor2}
+        border: 2px solid ${(props) => props.theme.borderColor2};
       }
 
-      img{
-        transform:scale(1.1);
+      img {
+        transform: scale(1.1);
       }
     }
 
-    .cl-internal-jayce9{
-    color: white;
+    .cl-internal-jayce9 {
+      color: white;
+    }
+
+    .cl-internal-1cd5e4l {
+      display: flex;
+      flex-flow: row;
+      flex-direction: row-reverse;
+    }
+
+    .cl-internal-11ewti4 {
+      width: 50px;
+      height: 50px;
+    }
   }
 
-  .cl-internal-1cd5e4l{
-    display:flex;
-    flex-flow:row;
-    flex-direction: row-reverse;
-  }
-
-  .cl-internal-11ewti4{
-    width:50px;
-    height:50px;
-  }
-  }
-
-  .nav-item{
-    position:relative;
+  .nav-item {
+    position: relative;
     padding: 0.8rem 1rem 0.9rem 2.1rem;
     margin: 0.3rem 0;
-    display:grid;
+    display: grid;
     grid-template-columns: 40px 1fr;
-    cursor:pointer;
+    cursor: pointer;
     align-items: center;
-    &::after{
-      position:absolute;
-      content:"";
+    &::after {
+      position: absolute;
+      content: "";
       left: 0;
-      top:0;
-      width:0;
-      height:100%;
-      background-color: ${props => props.theme.activeNavLinkHover};
+      top: 0;
+      width: 0;
+      height: 100%;
+      background-color: ${(props) => props.theme.activeNavLinkHover};
       z-index: 1;
-      transition:all 0.3s ease-in-out;
+      transition: all 0.3s ease-in-out;
     }
 
     &::before {
-      position:absolute;
-      content:"";
+      position: absolute;
+      content: "";
       right: 0;
-      top:0;
-      width:0;
-      height:100%;
-      background-color: ${props => props.theme.colorGreenDark};
+      top: 0;
+      width: 0;
+      height: 100%;
+      background-color: ${(props) => props.theme.colorGreenDark};
       border-bottom-left-radius: 5px;
       border-top-left-radius: 5px;
     }
 
-    a{
-      font-weight:500;
+    a {
+      font-weight: 500;
       transition: all 0.3s ease-in-out;
       z-index: 2;
-      line-height:0;
+      line-height: 0;
     }
 
-    i{
-      display:flex;
-      align-items:center;
-      color:${props => props.theme.colorIcons}
+    i {
+      display: flex;
+      align-items: center;
+      color: ${(props) => props.theme.colorIcons};
     }
 
-    &:hover{
-      &::after{
-        width:100%;
+    &:hover {
+      &::after {
+        width: 100%;
       }
     }
   }
 
-  .active{
-    background-color: ${props=> props.theme.activeNavLink};
+  .active {
+    background-color: ${(props) => props.theme.activeNavLink};
 
-    i, a{
-      color: ${props => props.theme.colorIcons2};
+    i,
+    a {
+      color: ${(props) => props.theme.colorIcons2};
     }
   }
 
-  .active::before{
+  .active::before {
     width: 0.3rem;
   }
 
-  >button{
+  > button {
     margin: 1.5rem;
   }
 `;

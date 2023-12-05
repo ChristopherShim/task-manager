@@ -13,44 +13,63 @@ export const GlobalProvider = ({ children }) => {
   const { user } = useUser();
   const [selectedTheme, setSelectedTheme] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [modal, setModal] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
   const [tasks, setTasks] = useState([]);
   const theme = themes[selectedTheme];
+
+  const openModal = () => {
+    setModal(true)
+  };
+
+  const closeModal = () => {
+    setModal(false)
+  }
+
+  const collapseMenu =() =>{
+setCollapsed(!collapsed)
+  }
+
 
   const allTasks = async () => {
     setIsLoading(true);
     try {
       const res = await axios.get("/api/tasks");
-      setTasks(res.data)
+      
+      const sorted = res.data.sort((a,b) => {
+        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+      })
+      setTasks(sorted);
       setIsLoading(false);
     } catch (error) {
       toast.error("Something went wrong");
     }
   };
 
-  const deleteTask = async (id)=>{
+  const deleteTask = async (id) => {
     try {
-      const res = await axios.delete(`/api/tasks/${id}`)
+      const res = await axios.delete(`/api/tasks/${id}`);
       toast.success("Task deleted");
       allTasks();
     } catch (error) {
-      console.log(error)
-      toast.error("Something went wrong")
+      console.log(error);
+      toast.error("Something went wrong");
     }
-  }
+  };
 
-  const updateTask = async (task)=>{
+  const updateTask = async (task) => {
     try {
-      const res = await axios.put('/api/tasks', task)
-      toast.success("Task Updated")
-      allTasks()
+      const res = await axios.put("/api/tasks", task);
+      toast.success("Task Updated");
+      allTasks();
     } catch (error) {
-      toast.error("Something went wrong")
+      toast.error("Something went wrong");
     }
-  }
+  };
 
-  const completedTasks = tasks.filter(task => task.isCompleted === true)
-  const importantTasks = tasks.filter(task => task.isImportant === true)
-  const incompleteTasks = tasks.filter(task => task.isCompleted === false)
+  const completedTasks = tasks.filter((task) => task.isCompleted === true);
+  const importantTasks = tasks.filter((task) => task.isImportant === true);
+  const incompleteTasks = tasks.filter((task) => task.isCompleted === false);
 
   useEffect(() => {
     if (user) allTasks();
@@ -66,7 +85,13 @@ export const GlobalProvider = ({ children }) => {
         completedTasks,
         importantTasks,
         incompleteTasks,
-        updateTask
+        updateTask,
+        openModal,
+        closeModal,
+        modal,
+        allTasks,
+        collapsed,
+        collapseMenu
       }}
     >
       <GlobalUpdateContext.Provider value={{}}>

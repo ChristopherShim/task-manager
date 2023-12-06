@@ -70,6 +70,7 @@ setCollapsed(!collapsed)
     try {
       const res = await axios.put("/api/tasks", task);
       toast.success("Task Updated");
+      console.log(res.data)
       allTasks();
     } catch (error) {
       toast.error("Something went wrong");
@@ -77,12 +78,13 @@ setCollapsed(!collapsed)
   };
 
   const updateSingleTask = async(id) => {
-    
+    console.log(id)
   }
 
   const completedTasks = tasks.filter((task) => task.isCompleted === true);
   const importantTasks = tasks.filter((task) => task.isImportant === true);
   const incompleteTasks = tasks.filter((task) => task.isCompleted === false);
+  const unimportantTasks = tasks.filter(task => task.isImportant === false);
 
   useEffect(() => {
     if (user) allTasks();
@@ -98,6 +100,7 @@ setCollapsed(!collapsed)
         completedTasks,
         importantTasks,
         incompleteTasks,
+        unimportantTasks,
         updateTask,
         openCreateModal,
         closeCreateModal,

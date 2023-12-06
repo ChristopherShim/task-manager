@@ -14,18 +14,17 @@ interface Props {
   date: string;
   isCompleted: boolean;
   id: string;
+  isImportant: boolean;
 }
 
-function TaskItem({ title, description, date, isCompleted, id }: Props) {
+function TaskItem({ title, description, date, isCompleted, isImportant, id }: Props) {
   const { theme, deleteTask, updateTask, openEditModal, editModal} = useGlobalState();
 
-  function checkTaskId(){
-    console.log(id)
-  }
+
   return (
     <>
     <TaskItemStyled theme={theme}>
-      {editModal && <div>hello</div>}
+      {editModal && <div>{id}</div>}
       <h1>{title}</h1>
       <p>{description}</p>
       <p className="date">{formatDate(date)}</p>
@@ -59,9 +58,39 @@ function TaskItem({ title, description, date, isCompleted, id }: Props) {
             Incomplete
           </button>
         )}
+        
+        {isImportant ? (
+          <button
+            className="important"
+            onClick={() => {
+              const task = {
+                id,
+                isImportant: !isImportant,
+              };
+
+              updateTask(task);
+            }}
+          >
+            Urgent
+          </button>
+        ) : (
+          <button
+            className="not-important"
+            onClick={() => {
+              const task = {
+                id,
+                isImportant: !isImportant,
+              };
+
+              updateTask(task);
+            }}
+          >
+            Casual
+          </button>
+        )}
         <button
           className="edit"
-          onClick={openEditModal}
+          onClick={()=>openEditModal()}
         >
           {edit}
         </button>
@@ -128,6 +157,17 @@ const TaskItemStyled = styled.div`
     }
 
     .completed {
+      background: ${(props) => props.theme.colorGreenDark};
+    }
+
+    .important, .not-important{
+      display: inline-block;
+      padding: 0.4rem 1rem;
+      background: ${(props) => props.theme.colorDanger};
+      border-radius: 30px;
+    }
+
+    .important {
       background: ${(props) => props.theme.colorGreenDark};
     }
   }

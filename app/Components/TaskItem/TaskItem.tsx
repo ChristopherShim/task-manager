@@ -88,6 +88,7 @@ function TaskItem({ title, description, date, isCompleted, isImportant, id }: Pr
             Casual
           </button>
         )}
+
         <button
           className="edit"
           onClick={()=>openEditModal()}
@@ -114,7 +115,7 @@ const TaskItemStyled = styled.div`
   background-color: ${(props) => props.theme.borderColor2};
   box-shadow: ${(props) => props.theme.shadow7};
   border: 2px solid ${(props) => props.theme.borderColor2};
-  height: 16rem;
+  height: 100%;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;

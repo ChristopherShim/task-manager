@@ -3,11 +3,9 @@
 import React from "react";
 import styled from "styled-components";
 import { useGlobalState } from "@/app/context/globalProvider";
-import Image from "next/image";
 import menu from "@/app/utils/menu";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import PFPImage from "@/public/avatar1.jpg";
 import Button from "../Button/button";
 import { arrowLeft, bars, logout } from "@/app/utils/Icons";
 import { UserButton, useClerk } from "@clerk/nextjs";
@@ -30,9 +28,6 @@ function Sidebar() {
       </button>
       <div className="profile">
         <div className="profile-overlay"></div>
-        {/* <div className="image">
-          <Image className="w-[50px] h-[50px] object-cover" alt="profile" src={PFPImage} />
-        </div> */}
         <div className="user-btn">
           <UserButton showName={true} />
         </div>

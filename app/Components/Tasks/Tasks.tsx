@@ -16,6 +16,8 @@ interface Props {
 function Tasks({ title, tasks }: Props) {
   const { theme, openCreateModal, createModal } = useGlobalState();
 
+  console.log(tasks)
+
   return (
     <TasksStyled theme={theme}>
       {createModal && <CreateModal content={<CreateContent/>}/>}
@@ -81,7 +83,7 @@ const TasksStyled = styled.main`
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    height: 16rem;
+    height: 100%;
     color: ${(props) => props.theme.colorGrey2};
     font-weight: 600;
     cursor: pointer;

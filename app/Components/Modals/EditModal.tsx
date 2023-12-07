@@ -14,7 +14,7 @@ function EditModal({content}: Props) {
   return (
     <ModalStyled theme={theme}>
         <div className="modal-overlay" onClick={closeEditModal}></div>
-        <div className="modal-content">{content}</div>
+        <div className="modal-editContent">{content}</div>
         
     </ModalStyled>
   )
@@ -41,7 +41,7 @@ const ModalStyled = styled.div`
         filter:blur(4px);
     }
 
-    .modal-content{
+    .modal-editContent{
         padding: 2rem;
         position:relative;
         max-width: 630px;

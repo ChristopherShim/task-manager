@@ -24,7 +24,6 @@ function TaskItem({ title, description, date, isCompleted, isImportant, id }: Pr
   return (
     <>
     <TaskItemStyled theme={theme}>
-      {editModal && <div>{id}</div>}
       <h1>{title}</h1>
       <p>{description}</p>
       <p className="date">{formatDate(date)}</p>
@@ -91,7 +90,10 @@ function TaskItem({ title, description, date, isCompleted, isImportant, id }: Pr
 
         <button
           className="edit"
-          onClick={()=>openEditModal()}
+          onClick={()=>{
+            const editTask = {id, title, description,date}
+            openEditModal(editTask)
+          }}
         >
           {edit}
         </button>
@@ -115,7 +117,7 @@ const TaskItemStyled = styled.div`
   background-color: ${(props) => props.theme.borderColor2};
   box-shadow: ${(props) => props.theme.shadow7};
   border: 2px solid ${(props) => props.theme.borderColor2};
-  height: 100%;
+  height: 100% ;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;

@@ -7,20 +7,26 @@ import TaskItem from "../TaskItem/TaskItem";
 import { plus } from "@/app/utils/Icons";
 import CreateContent from "../Modals/CreateContent";
 import CreateModal from "../Modals/CreateModal";
+import EditModal from "../Modals/EditModal";
+import EditContent from "../Modals/EditContent";
 
 interface Props {
   title: string;
   tasks: any[];
+  editTask: any[];
 }
 
-function Tasks({ title, tasks }: Props) {
-  const { theme, openCreateModal, createModal } = useGlobalState();
+function Tasks({ title, tasks, editTask }: Props) {
+  const { theme, openCreateModal, createModal, editModal, editTasks } = useGlobalState();
 
-  console.log(tasks)
+  // console.log(editTasks)
 
   return (
     <TasksStyled theme={theme}>
       {createModal && <CreateModal content={<CreateContent/>}/>}
+      
+      {editModal && <EditModal content={<EditContent/>}/>}
+      {/* {editModal && <div>hi</div>} */}
       <h1>{title}</h1>
         <div className="tasks grid">
           {tasks.map((task) => (
@@ -83,6 +89,7 @@ const TasksStyled = styled.main`
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
+    min-height:16rem;
     height: 100%;
     color: ${(props) => props.theme.colorGrey2};
     font-weight: 600;

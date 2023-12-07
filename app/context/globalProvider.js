@@ -17,6 +17,7 @@ export const GlobalProvider = ({ children }) => {
   const [editModal, setEditModal] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
   const [tasks, setTasks] = useState([]);
+  const [editTasks, setEditTasks] = useState([]);
   const theme = themes[selectedTheme];
 
   const openCreateModal = () => {
@@ -27,8 +28,9 @@ export const GlobalProvider = ({ children }) => {
     setCreateModal(false)
   }
 
-  const openEditModal = () =>{
+  const openEditModal = (editTask) =>{
     setEditModal(true);
+    setEditTasks(editTask)
   }
 
   const closeEditModal = () => {
@@ -111,7 +113,8 @@ setCollapsed(!collapsed)
         updateSingleTask,
         openEditModal,
         closeEditModal,
-        editModal
+        editModal,
+        editTasks
       }}
     >
       <GlobalUpdateContext.Provider value={{}}>

@@ -15,7 +15,9 @@ function EditContent() {
   const [completed, setCompleted] = useState(false);
   const [important, setImportant] = useState(false);
 
-  const { theme, allTasks, closeEditModal } = useGlobalState();
+  const { theme, allTasks, closeEditModal, editTasks } = useGlobalState();
+
+  console.log(editTasks)
 
   const handleChange = (name: string) => (e: any) => {
     switch (name) {
@@ -39,7 +41,7 @@ function EditContent() {
     }
   };
 
-  const handleSubmit = async (e: any) => {
+  const handleEditSubmit = async (e: any) => {
     e.preventDefault();
 
     const task = {
@@ -51,13 +53,13 @@ function EditContent() {
     };
 
     try {
-      const res = await axios.post("/api/tasks", task);
+      const res = await axios.put("/api/tasks", task);
 
       if (res.data.error) {
         toast.error(res.data.error);
       }
       if (!res.data.error) {
-        toast.success("Task created successfully.");
+        toast.success("Task updated successfully.");
         allTasks();
         closeEditModal();
       }
@@ -68,7 +70,7 @@ function EditContent() {
   };
 
   return (
-    <CreateContentStyled onSubmit={handleSubmit} theme={theme}>
+    <CreateContentStyled onSubmit={handleEditSubmit} theme={theme}>
       <h1>Create a Task</h1>
       <div className="input-control">
         <label htmlFor="title">Title</label>
@@ -78,7 +80,7 @@ function EditContent() {
           value={title}
           name="title"
           onChange={handleChange("title")}
-          placeholder="e.g, Watch a video from Fireship."
+          placeholder="e.g, Watch a video about Fireship"
         ></input>
       </div>
 
@@ -130,7 +132,7 @@ function EditContent() {
       <div className="submit-btn flex justify-end">
         <Button
           type="submit"
-          name="Create Task"
+          name="Edit Task"
           icon={plus}
           padding={"1.2rem 2.4rem"}
           borderRad={"0.8rem"}

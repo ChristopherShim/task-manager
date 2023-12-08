@@ -8,16 +8,14 @@ import { useGlobalState } from "@/app/context/globalProvider";
 import Button from "../Button/button";
 import { plus } from "@/app/utils/Icons";
 
-function EditContent() {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [date, setDate] = useState("");
-  const [completed, setCompleted] = useState(false);
-  const [important, setImportant] = useState(false);
+function EditContent({...editTasks}) {
+  const [title, setTitle] = useState(editTasks.title || "");
+  const [description, setDescription] = useState(editTasks.description || "");
+  const [date, setDate] = useState(editTasks.date || "");
+  // const [completed, setCompleted] = useState(false);
+  // const [important, setImportant] = useState(false);
 
-  const { theme, allTasks, closeEditModal, editTasks } = useGlobalState();
-
-  console.log(editTasks)
+  const { theme, allTasks, closeEditModal } = useGlobalState();
 
   const handleChange = (name: string) => (e: any) => {
     switch (name) {
@@ -30,12 +28,12 @@ function EditContent() {
       case "date":
         setDate(e.target.value);
         break;
-      case "completed":
-        setCompleted(e.target.checked);
-        break;
-      case "important":
-        setImportant(e.target.checked);
-        break;
+      // case "completed":
+      //   setCompleted(e.target.checked);
+      //   break;
+      // case "important":
+      //   setImportant(e.target.checked);
+      //   break;
       default:
         break;
     }
@@ -48,8 +46,8 @@ function EditContent() {
       title,
       description,
       date,
-      completed,
-      important,
+      // completed,
+      // important,
     };
 
     try {
@@ -80,7 +78,7 @@ function EditContent() {
           value={title}
           name="title"
           onChange={handleChange("title")}
-          placeholder="e.g, Watch a video about Fireship"
+          placeholder=""
         ></input>
       </div>
 
@@ -92,7 +90,7 @@ function EditContent() {
           name="description"
           id="description"
           rows={4}
-          placeholder="e.g, Watch a video about Next.js Auth"
+          placeholder=""
         ></textarea>
       </div>
 
@@ -107,7 +105,7 @@ function EditContent() {
         />
       </div>
 
-      <div className="input-control toggler">
+      {/* <div className="input-control toggler">
         <label htmlFor="completed">Completed</label>
         <input
           value={completed.toString()}
@@ -127,7 +125,7 @@ function EditContent() {
           name="important"
           id="important"
         ></input>
-      </div>
+      </div> */}
 
       <div className="submit-btn flex justify-end">
         <Button

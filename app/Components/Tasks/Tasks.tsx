@@ -13,19 +13,19 @@ import EditContent from "../Modals/EditContent";
 interface Props {
   title: string;
   tasks: any[];
-  editTask: any[];
+
 }
 
-function Tasks({ title, tasks, editTask }: Props) {
+function Tasks({ title, tasks}: Props) {
   const { theme, openCreateModal, createModal, editModal, editTasks } = useGlobalState();
 
-  // console.log(editTasks)
+  console.log(editTasks)
 
   return (
     <TasksStyled theme={theme}>
       {createModal && <CreateModal content={<CreateContent/>}/>}
       
-      {editModal && <EditModal content={<EditContent/>}/>}
+      {editModal && <EditModal content={<EditContent {...editTasks}/>}/>}
       {/* {editModal && <div>hi</div>} */}
       <h1>{title}</h1>
         <div className="tasks grid">

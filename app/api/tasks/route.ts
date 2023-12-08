@@ -85,6 +85,7 @@ export async function PUT(req: Request) {
       }
     })
 
+
     return NextResponse.json(task);
   } catch (error) {
     console.log("ERROR UPDATING TASK: ", error);

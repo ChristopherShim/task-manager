@@ -8,6 +8,7 @@ import { useGlobalState } from "@/app/context/globalProvider";
 import Button from "../Button/button";
 import { plus } from "@/app/utils/Icons";
 
+
 function EditContent({...editTasks}) {
   const [title, setTitle] = useState(editTasks.title || "");
   const [description, setDescription] = useState(editTasks.description || "");
@@ -15,7 +16,7 @@ function EditContent({...editTasks}) {
   // const [completed, setCompleted] = useState(false);
   // const [important, setImportant] = useState(false);
 
-  const { theme, allTasks, closeEditModal } = useGlobalState();
+  const { theme, updateTask } = useGlobalState();
 
   const handleChange = (name: string) => (e: any) => {
     switch (name) {
@@ -43,6 +44,7 @@ function EditContent({...editTasks}) {
     e.preventDefault();
 
     const task = {
+      id: editTasks.id,
       title,
       description,
       date,
@@ -50,21 +52,23 @@ function EditContent({...editTasks}) {
       // important,
     };
 
-    try {
-      const res = await axios.put("/api/tasks", task);
+    updateTask(task)
 
-      if (res.data.error) {
-        toast.error(res.data.error);
-      }
-      if (!res.data.error) {
-        toast.success("Task updated successfully.");
-        allTasks();
-        closeEditModal();
-      }
-    } catch (error) {
-      toast.error("Something went wrong");
-      console.log(error);
-    }
+    // try {
+    //   const res = await axios.put("/api/tasks", task);
+
+    //   if (res.data.error) {
+    //     toast.error(res.data.error);
+    //   }
+    //   if (!res.data.error) {
+    //     toast.success("Task updated successfully.");
+    //     allTasks();
+    //     closeEditModal();
+    //   }
+    // } catch (error) {
+    //   toast.error("Something went wrong");
+    //   console.log(error);
+    // }
   };
 
   return (

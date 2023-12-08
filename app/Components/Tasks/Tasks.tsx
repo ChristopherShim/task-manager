@@ -19,7 +19,6 @@ interface Props {
 function Tasks({ title, tasks}: Props) {
   const { theme, openCreateModal, createModal, editModal, editTasks } = useGlobalState();
 
-  console.log(editTasks)
 
   return (
     <TasksStyled theme={theme}>

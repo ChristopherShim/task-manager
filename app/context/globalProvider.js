@@ -79,9 +79,6 @@ setCollapsed(!collapsed)
     }
   };
 
-  const updateSingleTask = async(id) => {
-    console.log(id)
-  }
 
   const completedTasks = tasks.filter((task) => task.isCompleted === true);
   const importantTasks = tasks.filter((task) => task.isImportant === true);
@@ -110,7 +107,6 @@ setCollapsed(!collapsed)
         allTasks,
         collapsed,
         collapseMenu,
-        updateSingleTask,
         openEditModal,
         closeEditModal,
         editModal,
